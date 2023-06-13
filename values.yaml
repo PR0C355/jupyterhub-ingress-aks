@@ -24,4 +24,36 @@ jupyterhub:
         authenticator_class: dummy
 
 ingress:
-  enabled: false
+  enabled: true
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt
+  rules:
+    - host: dynamic-test.southcentralus.cloudapp.azure.com
+      httpPaths:
+        - path: /
+          pathType: Prefix
+          serviceName: proxy-public
+          servicePortNumber: 80
+
+ingress-nginx:
+  controller:
+    service:
+      annotations:
+        service.beta.kubernetes.io/azure-dns-label-name: dynamic-test
+        service.beta.kubernetes.io/azure-load-balancer-health-probe-request-path: /healthz
+
+cert-manager:
+  installCRDs: true
+  nodeSelector:
+    kubernetes.io/os: linux
+  image:
+    repository: quay.io/jetstack/cert-manager-controller
+    tag: v1.8.0 
+  webhook:
+    image:
+      repository: quay.io/jetstack/cert-manager-webhook 
+      tag: v1.8.0 
+  cainjector:
+    image:
+      repository: quay.io/jetstack/cert-manager-cainjector 
+      tag: v1.8.0
