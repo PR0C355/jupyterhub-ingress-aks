@@ -43,4 +43,4 @@ ingress-control:
           service.beta.kubernetes.io/azure-load-balancer-health-probe-request-path: /healthz
 
 global:
-  email: ooguntol@purdue.edu
+  email: youremail@example.com
