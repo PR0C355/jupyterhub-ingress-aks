@@ -1,6 +1,6 @@
 # JupyterHub with Ingress - Helm Chart
 
-This Helm chart deploys a JupyterHub instance with an Ingress resource. JupyterHub is a multi-user Jupyter Notebook server that allows multiple users to access and run Jupyter Notebooks on a shared cluster. This chart was designed for the [Anvil Cluster](https://doi.org/10.1145/3491418.3530766) but should be applicable to any Kubernetes deployment.
+This Helm chart deploys a JupyterHub instance with an Ingress resource. JupyterHub is a multi-user Jupyter Notebook server that allows multiple users to access and run Jupyter Notebooks on a Kubernetes cluster. This chart was designed for use on an Azure Kubernetes Service Cluster but should be applicable to any Kubernetes deployment.
 
 ## Prerequisites
 
@@ -14,7 +14,7 @@ Before deploying this Helm chart, ensure that you have the following prerequisit
 1. Clone the repository:
 
    ```shell
-   git clone https://github.com/PR0C355/jupyterhub-ingress-anvil.git
+   git clone https://github.com/PR0C355/jupyterhub-ingress-aks.git
    ```
 
 2. Customize the values in `values.yaml` file based on your requirements. You can modify anything normally modifiable in [JupyterHub](https://z2jh.jupyter.org/en/stable/resources/reference.html#helm-chart-configuration-reference), as well as the deployed ingress resource. 
@@ -23,8 +23,8 @@ Before deploying this Helm chart, ensure that you have the following prerequisit
 
    ```shell
    helm upgrade --cleanup-on-fail \
-     --install jupyterhub ./jupyterhub-ingress-anvil \
-     --namespace oo-test \
+     --install jupyterhub ./jupyterhub-ingress-aks \
+     --namespace jhub \
      --create-namespace
    ```
 
@@ -50,7 +50,7 @@ Please note that the `(none)` values indicate parameters that are dependent on u
 
 ## Usage
 
-Once the Helm chart is deployed, you can access JupyterHub by navigating to the specified Ingress hostname in your web browser. You can authenticate using the configured authentication method (e.g., Dummy, GitHub, CILogon, etc.) and start using Jupyter Notebooks.
+Once the Helm chart is deployed, you can access JupyterHub by navigating to the specified Ingress FQDN in your web browser. You can authenticate using the configured authentication method (e.g., Dummy, GitHub, CILogon, etc.) and start using Jupyter Notebooks.
 
 ## Upgrading
 
@@ -58,7 +58,8 @@ To upgrade the JupyterHub deployment with a new version of the Helm chart, use t
 
 ```shell
 helm upgrade --cleanup-on-fail \
-   jupyterhub ./jupyterhub-ingress-anvil
+   jupyterhub ./jupyterhub-ingress-aks
+   --namespace jhub
 ```
 
 Ensure to modify the `values.yaml` file if you want to make any configuration changes during the upgrade.
