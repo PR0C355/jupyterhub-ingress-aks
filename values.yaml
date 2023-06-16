@@ -24,15 +24,12 @@ jupyterhub:
 
 ingress:
   enabled: true
+  serviceName: proxy-public
+  servicePortNumber: 80
+  path: /
+  pathType: Prefix
   annotations:
     cert-manager.io/cluster-issuer: letsencrypt
-  rules:
-    - host: "jupyterhub.southcentralus.cloudapp.azure.com"
-      httpPaths:
-        - path: /
-          pathType: Prefix
-          serviceName: proxy-public
-          servicePortNumber: 80
 
 ingress-control:
   ingress-nginx:
@@ -41,6 +38,4 @@ ingress-control:
         annotations:
           service.beta.kubernetes.io/azure-dns-label-name: "jupyterhub"
           service.beta.kubernetes.io/azure-load-balancer-health-probe-request-path: /healthz
-
-global:
   email: youremail@example.com
