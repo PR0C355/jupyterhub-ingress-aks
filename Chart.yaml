@@ -1,7 +1,7 @@
 apiVersion: v2
-name: jupyterhub-ingress-anvil
+name: jupyterhub-ingress-aks
 description: A Helm chart to deploy JupyterHub with an ingress, using the ingress-nginx controller and cert-manager on an Azure Kubernetes Service cluster.
-
+icon: https://jupyterhub.readthedocs.io/en/0.9.2/_static/logo.png
 # A chart can be either an 'application' or a 'library' chart.
 #
 # Application charts are a collection of templates that can be packaged into versioned archives
