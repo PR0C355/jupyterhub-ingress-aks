@@ -14,7 +14,7 @@ jupyterhub:
         kubespawner_override:
           node_selector:
           # Labels for Node Pools
-            rock: lobster
+            env: basic
         default: true
       - display_name: "Datascience Environment"
         description: "Comes with the additional bells and whistles: Python, R, and Julia."
@@ -22,7 +22,7 @@ jupyterhub:
           image: jupyter/datascience-notebook:2343e33dec46
           node_selector:
           # Labels for Node Pools
-            rock: candy
+            env: datasci
   hub:
     config:
       Authenticator:
