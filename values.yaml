@@ -8,6 +8,21 @@ jupyterhub:
   singleuser:
     cloudMetadata:
       blockWithIptables: false
+    profileList:
+      - display_name: "Basic Environment"
+        description: "A basic environment for quick, and easy tsting. Nothing Special."
+        kubespawner_override:
+          node_selector:
+          # Labels for Node Pools
+            rock: lobster
+        default: true
+      - display_name: "Datascience Environment"
+        description: "Comes with the additional bells and whistles: Python, R, and Julia."
+        kubespawner_override:
+          image: jupyter/datascience-notebook:2343e33dec46
+          node_selector:
+          # Labels for Node Pools
+            rock: candy
   hub:
     config:
       Authenticator:
@@ -29,7 +44,7 @@ ingress:
   path: /
   pathType: Prefix
   annotations:
-    cert-manager.io/cluster-issuer: letsencrypt
+    cert-manager.io/cluster-issuer: letsencrypt 
 
 ingress-control:
   ingress-nginx:
