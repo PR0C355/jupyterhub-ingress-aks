@@ -16,13 +16,21 @@ jupyterhub:
           # Labels for Node Pools
             env: basic
         default: true
-      - display_name: "Datascience Environment"
+      - display_name: "Data Science Environment"
         description: "Comes with the additional bells and whistles: Python, R, and Julia."
         kubespawner_override:
           image: jupyter/datascience-notebook:2343e33dec46
           node_selector:
           # Labels for Node Pools
             env: datasci
+    storage:
+      extraVolumes:
+        - name: shared-data
+          persistentVolumeClaim:
+            claimName: data-blob-claim
+      extraVolumeMounts:
+        - name: shared-data
+          mountPath: /home/jovyan/shared
   hub:
     config:
       Authenticator:
