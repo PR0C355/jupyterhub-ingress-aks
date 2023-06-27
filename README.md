@@ -32,26 +32,18 @@ Before deploying this Helm chart, ensure that you have the following prerequisit
 
 The following table lists the configurable parameters of the ingress resource in the JupyterHub Helm chart and their default values:
 
-| Parameter                                    | Description                             | Default                  |
-| -------------------------------------------- | --------------------------------------- | ------------------------ |
-| `ingress.enabled`                            | Enable Ingress resource creation         | `true`                   |
-| `ingress.annotations`                        | Ingress annotations                      | `{}` (unspecified)       |
-| `ingress.name`                               | Name of the Ingress resource             | `jhub-ingress`           |
-| `ingress.labels`                             | Labels for the Ingress resource          | `{}` (unspecified)       |
-| `ingress.rules`                              | Rules for defining host, paths, and backend | `[]` (unspecified)    |
-| `ingress.rules[].host`                       | Hostname for the Ingress rule            | (none)                   |
-| `ingress.rules[].httpPaths`                  | HTTP paths and backend services for the rule | `[]` (unspecified)  |
-| `ingress.rules[].httpPaths[].path`            | Path for the Ingress rule                | (none)                   |
-| `ingress.rules[].httpPaths[].pathType`        | Path type for the Ingress rule           | (none)                   |
-| `ingress.rules[].httpPaths[].backend.serviceName` | Name of the backend service          | (none)                   |
-| `ingress.rules[].httpPaths[].backend.servicePortNumber` | Port number of the backend service | (none)          |
-| `ingress-control.ingress-nginx.controller.service.annotations`    | Annotations for the Ingress controller service                                          | `service.beta.kubernetes.io/azure-dns-label-name: "jupyterhub"`<br>`service.beta.kubernetes.io/azure-load-balancer-health-probe-request-path: /healthz` |
-| `global.email`                                       | Email address                                                                                   | `email@example.com`                                             |
-
-The annotations in the `ingress-control.ingress-nginx.controller.service.annotations` parameter allow you to customize the behavior of the Ingress controller. The `service.beta.kubernetes.io/azure-dns-label-name` annotation, sets the DNS label of the Fully Qualified Domain Name used by your ingress controller. This should be the same as the first part of the domain used for your host in `ingress.rules[].host`.
-
-You can modify the value of this annotation to fit your specific requirements. Make sure to refer to the Ingress controller's documentation for more details on the available annotations and their configurations.
-
+ Parameter                                                                                                        | Description                                                         | Default                                                                               |
+|------------------------------------------------------------------------------------------------------------------|---------------------------------------------------------------------|---------------------------------------------------------------------------------------|
+| `ingress.enabled`                                                                                                | Enables Ingress resource creation                                   | `True`                                                                                |
+| `ingress.annotations`                                                                                            | Ingress resource annotations                                        | `service.beta.kubernetes.io/azure-load-balancer-health-probe-request-path : /healthz` |
+| `ingress.name`                                                                                                   | Name of the ingress resource                                        | `jhub-ingress`                                                                        |
+| `ingress.path`                                                                                                   | The path for the ingress rule                                       | `/`                                                                                |
+| `ingress.pathType`                                                                                               | The path type for the ingress rule                                  | `Prefix`                                                                                |
+| `ingress.serviceName`                                                                                            | The name of the service that the ingress rule will route to         | `proxy-public`                                                                        |
+| `ingress.servicePortNumber`                                                                                      | The port of the service that the ingress rule will route to         | `80`                                                                                  |
+| `ingress-control.email`                                                                                          | The email to verify domain ownership with                           | (none)                                                                                |
+| `ingress-control.ingress-nginx.controller.service.annotations."service.beta.kubernetes.io/azure-dns-label-name"` | The DNS label to use for an Azure Load Balancer to provision a FQDN | `jupyterhub`                                                                          |
+You can modify the value of the ingress controller's annotation to fit your specific requirements by editing `ingress-control.ingress-nginx.controller.service.annotations`. Make sure to refer to the Ingress controller's documentation for more details on the available annotations and their configurations.
 
 Please note that the `(none)` values indicate parameters that are dependent on user configuration and are not provided in the given Ingress file.
 
@@ -86,3 +78,4 @@ This will remove all resources associated with the JupyterHub deployment, includ
 - This Helm chart does not handle automatic scaling of the JupyterHub deployment. You may need to manually adjust the number of replicas based on the workload.
 - It is recommended to secure the JupyterHub deployment with appropriate authentication and authorization mechanisms to control user access and prevent unauthorized usage.
 - Ensure that your Kubernetes cluster has sufficient resources (CPU, memory, storage) to accommodate the desired number of JupyterHub replicas and user notebooks.
+- Occasionally, after deployment, the certificate create by `cert-manager` will fail to become ready. Assuming that everything else is confgured correctly. this can be resolved by simply deleting the certificate, forcing the `cert-manager` to issue a new one that should work properly.
