@@ -10,7 +10,7 @@ jupyterhub:
       blockWithIptables: false
     profileList:
       - display_name: "Basic Environment"
-        description: "A basic environment for quick, and easy tsting. Nothing Special."
+        description: "A basic environment for quick, and easy testing. Nothing Special."
         kubespawner_override:
           node_selector:
           # Labels for Node Pools
@@ -24,10 +24,12 @@ jupyterhub:
           # Labels for Node Pools
             env: datasci
     storage:
+      dynamic:
+        storageClass: azurefile
       extraVolumes:
         - name: shared-data
           persistentVolumeClaim:
-            claimName: data-blob-claim
+            claimName: data-blob
       extraVolumeMounts:
         - name: shared-data
           mountPath: /home/jovyan/shared

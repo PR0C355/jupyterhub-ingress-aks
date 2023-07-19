@@ -1,12 +1,12 @@
 kind: PersistentVolumeClaim
 apiVersion: v1
 metadata:
-  name: data-blob-claim
+  name: data-blob
+  annotations:
+        volume.beta.kubernetes.io/storage-class: azureblob-nfs-premium
 spec:
   accessModes:
-    - ReadOnlyMany
+  - ReadWriteMany
   resources:
     requests:
-      storage: 1Gi
-  volumeName: data-blob
-  storageClassName: azureblob-nfs-premium
+      storage: 5Gi
